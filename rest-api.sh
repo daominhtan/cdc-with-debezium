@@ -47,12 +47,36 @@ curl --location 'http://localhost:8083/connectors' \
   }
 }'
 
+# Register MongoDB Sink Connector
+curl --location 'http://localhost:8083/connectors' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "name": "mongo-sink",
+  "config": {
+    "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+    "tasks.max": "1",
+    "topics": "mysql.inventory.category",
+    "connection.uri": "mongodb://root:root@mongo:27017",
+    "database": "mysql_inventory",
+    "collection": "category",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "key.ignore": "true",
+    "document.id.strategy": "com.mongodb.kafka.connect.sink.processor.id.strategy.PartialValueStrategy",
+    "document.id.strategy.partial.value.projection.list": "id",
+    "document.id.strategy.partial.value.projection.type": "AllowList"
+    }
+}'
 
 # REMOVE MYSQL CONNECTOR
 curl --location --request DELETE 'http://localhost:8083/connectors/mysql-connector'
 
 # REMOVE ES Connector
 curl --location --request DELETE 'http://localhost:8083/connectors/elasticsearch-sink'
+
+# Remove Mongo Connector
+curl --location --request DELETE 'http://localhost:8083/connectors/mongo-sink'
 
 
 # Check Source Connector status
