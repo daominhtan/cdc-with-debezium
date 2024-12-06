@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "34b9d590-36b8-48f8-acbf-ccb1da97b1d1",
+		"name": "Debezium",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "640134"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8083/connectors",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"mysql-connector\",\n    \"config\": {\n      \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\n      \"database.hostname\": \"mysql\",\n      \"database.port\": \"3306\",\n      \"database.user\": \"debezium\",\n      \"database.password\": \"debezium\",\n      \"database.server.id\": \"184054\",\n      \"database.server.name\": \"dbserver1\",\n      \"database.include.list\": \"inventory\",\n      \"include.schema.changes\": \"true\"\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST \\\n  -H \"Content-Type: application/json\" \\\n  --data '{\n    \"name\": \"mysql-connector\",\n    \"config\": {\n      \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\n      \"database.hostname\": \"mysql\",\n      \"database.port\": \"3306\",\n      \"database.user\": \"debezium\",\n      \"database.password\": \"debezium\",\n      \"database.server.id\": \"184054\",\n      \"database.server.name\": \"dbserver1\",\n      \"database.include.list\": \"inventory\",\n      \"include.schema.changes\": \"true\"\n    }\n  }' \\\n  http://localhost:8083/connectors\n"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/connectors - MYSQL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"mysql-connector\",\n    \"config\": {\n      \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\n      \"database.hostname\": \"mysql\",\n      \"database.port\": \"3306\",\n      \"database.user\": \"debezium\",\n      \"database.password\": \"debezium\",\n      \"database.server.id\": \"184054\",\n      \"database.server.name\": \"dbserver1\",\n      \"database.include.list\": \"inventory\",\n      \"include.schema.changes\": \"true\",\n      \"topic.prefix\": \"mysql\",\n      \"schema.history.internal.kafka.bootstrap.servers\": \"kafka:9092\",\n      \"schema.history.internal.kafka.topic\": \"schema-changes.testdb\",\n      \"transforms\": \"unwrap\",\n      \"transforms.unwrap.type\": \"io.debezium.transforms.ExtractNewRecordState\",\n      \"transforms.unwrap.delete.handling.mode\": \"rewrite\", \n      \"tombstones.on.delete\": \"true\"\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST \\\n  -H \"Content-Type: application/json\" \\\n  --data '{\n    \"name\": \"mysql-connector\",\n    \"config\": {\n      \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\n      \"database.hostname\": \"mysql\",\n      \"database.port\": \"3306\",\n      \"database.user\": \"debezium\",\n      \"database.password\": \"debezium\",\n      \"database.server.id\": \"184054\",\n      \"database.server.name\": \"dbserver1\",\n      \"database.include.list\": \"inventory\",\n      \"include.schema.changes\": \"true\",\n      \"topic.prefix\": \"mysql\"\n    }\n  }' \\\n  http://localhost:8083/connectors\n"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/connectors - ES",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"elasticsearch-sink\",\n  \"config\": {\n    \"connector.class\": \"io.confluent.connect.elasticsearch.ElasticsearchSinkConnector\",\n    \"topics\": \"mysql.inventory.category\",  \n    \"connection.url\": \"http://elasticsearch:9200\",\n    \"key.ignore\": \"false\",\n    \"schema.ignore\": \"true\",\n    \"type.name\": \"_doc\",\n    \"behavior.on.null.values\": \"delete\",\n    \"transforms\": \"ExtractField\",\n    \"transforms.ExtractField.type\": \"org.apache.kafka.connect.transforms.ExtractField$Key\",\n    \"transforms.ExtractField.field\": \"id\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST -H \"Content-Type: application/json\" \\\n--data '{\n  \"name\": \"elasticsearch-sink\",\n  \"config\": {\n    \"connector.class\": \"io.confluent.connect.elasticsearch.ElasticsearchSinkConnector\",\n    \"topics\": \"testdb.test_table\",  # Kafka topic created by Debezium\n    \"connection.url\": \"http://elasticsearch:9200\",  # Elasticsearch endpoint\n    \"key.ignore\": \"true\",\n    \"schema.ignore\": \"true\",\n    \"type.name\": \"_doc\",\n    \"transforms\": \"unwrap\",\n    \"transforms.unwrap.type\": \"io.debezium.transforms.ExtractNewRecordState\",\n    \"behavior.on.null.values\": \"delete\"\n  }\n}' http://localhost:8083/connectors\n"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/connectors - LIST CONNECTORS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET http://localhost:8083/connectors\n"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/connectors/mysql-connector",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/connectors/mysql-connector",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"mysql-connector"
+					]
+				},
+				"description": "Generated from cURL: curl -X DELETE http://localhost:8083/connectors/<connector-name>\n"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/connectors/elasticsearch-sink",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/connectors/elasticsearch-sink",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"elasticsearch-sink"
+					]
+				},
+				"description": "Generated from cURL: curl -X DELETE http://localhost:8083/connectors/<connector-name>\n"
+			},
+			"response": []
+		}
+	]
+}
