@@ -53,3 +53,10 @@ curl --location --request DELETE 'http://localhost:8083/connectors/mysql-connect
 
 # REMOVE ES Connector
 curl --location --request DELETE 'http://localhost:8083/connectors/elasticsearch-sink'
+
+
+# Check Source Connector status
+curl -X GET http://localhost:8083/connectors/mysql-connector/status
+
+# Check Sync Connector status
+curl -X GET http://localhost:8083/connectors/elasticsearch-sink/status
